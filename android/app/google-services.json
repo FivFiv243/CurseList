@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878574192058",
+    "project_id": "taskufuture-ab137",
+    "storage_bucket": "taskufuture-ab137.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878574192058:android:d0304a30db8d5dffbd0983",
+        "android_client_info": {
+          "package_name": "com.exemple.task1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTE0WZrN_OyiDfd6WGmOatGo-krV2eSfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
