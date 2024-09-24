@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Padding(padding: EdgeInsets.fromLTRB(0, QueryHeight/50, 0, 0)),
           ListView.separated(
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount: 15,
             separatorBuilder: (context,index)=>const Divider(),
             itemBuilder: (context,index){
               return SizedBox(
@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child:
               ListView.separated(
                 scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
+                shrinkWrap: false,
                 itemCount: 5,
                 separatorBuilder: (context,index2)=>Padding(padding: EdgeInsets.fromLTRB(QueryWidth/20, 0, 0, 0)),
                 itemBuilder: (context,index2){
