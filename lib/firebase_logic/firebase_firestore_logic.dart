@@ -7,7 +7,7 @@ class FirebaseFirestoreLogic {
     try{
       return _firestore.collection("courses").snapshots();
     } catch(e){
-      return _firestore.collection("courses").snapshots();
+      return _firestore.collection("courses").where('name', isGreaterThan: '').snapshots();
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/gestures.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task1/firebase_logic/firebase_firestore_logic.dart';
 
@@ -11,15 +11,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  late Stream CoursesStream;
-
-  initStream()async{
-    CoursesStream = await FirebaseFirestoreLogic().getCoursesList();
+  late Stream CoursesStream = Stream.empty();
+  late String name,description,image;
+  late int lessons;
+  CoursesStreamInitial()async{
+    CoursesStream = await FirebaseFirestoreLogic().getCoursesList().whenComplete((){setState(() {});});
   }
+
+
 
   @override
   void initState() {
-    initStream();
+    CoursesStreamInitial();
     super.initState();
   }
 
@@ -62,7 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
               stream: CoursesStream,
               builder: (context,snapshot){
               return snapshot.hasData?
-
                 ListView.separated(
                   shrinkWrap: true,
                   itemCount: 4,
@@ -77,7 +79,22 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemCount: 3,
                       separatorBuilder: (context,index2)=>Padding(padding: EdgeInsets.fromLTRB(QueryWidth/20, 0, 0, 0)),
                       itemBuilder: (context,index2){
-                        return Container(
+                        DocumentSnapshot DsU = snapshot.data.docs[index*3+index2];
+                        String? CourseNameNullable, CourseImageNullable,CourseDescriptionNullable;
+                        int? CourseLessonsNullable;
+                        try{
+                          CourseNameNullable = DsU['name'];
+                          CourseImageNullable = DsU['image'];
+                          CourseDescriptionNullable = DsU['description'];
+                          CourseLessonsNullable = DsU['lessons'];
+                        }catch(e){
+                          debugPrint("Catched an error");
+                        }
+                        return  InkWell(
+                          onTap: (){
+                            
+                          },
+                          child: Container(
                           width: QueryWidth/3.56,
                           height: QueryHeight/2.55,
                           constraints: const BoxConstraints(
@@ -91,8 +108,28 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.amberAccent,
                           ),
-                          child: const Text("Mamy Ebal"),
-                          );
+                          child:Column(children:[ 
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: 
+                              CourseImageNullable!=null?Image.network(
+                                alignment: Alignment.topCenter,
+                                height: (QueryHeight/2.55)/2.3,
+                                width: QueryHeight/2.55,
+                                fit: BoxFit.fill,
+                                CourseImageNullable
+                              ):Image.network(
+                                "https://avatars.mds.yandex.net/i?id=9576ac4e5121ba912290d0a77941aced3ec05e7f-12378875-images-thumbs&n=13"
+                              ),
+                            ),
+                            CourseNameNullable!=null?Text(CourseNameNullable,style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*16.5),)):Text("en error", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*16.5),)),
+                            
+                            CourseDescriptionNullable!=null?Text(CourseDescriptionNullable.substring(0,75)+"...", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*23),)):Text("err", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*23),)),
+                            ]
+                            
+                            ),
+                          ),
+                        );
                         },
                       ),
                     )
