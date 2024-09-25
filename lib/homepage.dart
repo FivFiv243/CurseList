@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:task1/coursepage.dart';
 import 'package:task1/firebase_logic/firebase_firestore_logic.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final QueryWidth = MediaQuery.of(context).size.width;
     final QueryHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: const Color.fromARGB(136, 59, 40, 40),
       body:SizedBox(
         height: QueryHeight,
         width: QueryWidth,
@@ -50,9 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: BoxDecoration(
               border: Border.all(width: 0.5),
               borderRadius: BorderRadius.circular(20),
-              color: Colors.amberAccent,
+              color: const Color.fromARGB(255, 90, 69, 83),
             ),
-            child: Center(child:Text("List of curses", style: TextStyle(fontSize: QueryHeight/20),),)
+            child: Center(child:Text("List of curses", style: TextStyle(fontSize: QueryHeight/20, color: const Color.fromARGB(255, 222, 201, 255)),),)
           ),
         ),
 
@@ -67,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return snapshot.hasData?
                 ListView.separated(
                   shrinkWrap: true,
-                  itemCount: 4,
+                  itemCount: (snapshot.data.docs.length/3).ceil(),
                   separatorBuilder: (context,index)=> Padding(padding: EdgeInsets.fromLTRB(0, QueryHeight/50, 0, 0)),
                   itemBuilder: (context,index){
                     return SizedBox(
@@ -76,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child:Center(child:ListView.separated(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: false,
-                      itemCount: 3,
+                      itemCount: snapshot.data.docs.length -(snapshot.data.docs.length-9) ,
                       separatorBuilder: (context,index2)=>Padding(padding: EdgeInsets.fromLTRB(QueryWidth/20, 0, 0, 0)),
                       itemBuilder: (context,index2){
                         DocumentSnapshot DsU = snapshot.data.docs[index*3+index2];
@@ -92,9 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         }
                         return  InkWell(
                           onTap: (){
-                            
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CoursePage(name: CourseNameNullable, description: CourseDescriptionNullable, image: CourseImageNullable, lessons: CourseLessonsNullable)));
                           },
                           child: Container(
+                            
                           width: QueryWidth/3.56,
                           height: QueryHeight/2.55,
                           constraints: const BoxConstraints(
@@ -106,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           decoration: BoxDecoration(
                             border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.amberAccent,
+                            color: const Color.fromARGB(255, 90, 69, 83),
                           ),
                           child:Column(children:[ 
                             ClipRRect(
@@ -122,9 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 "https://avatars.mds.yandex.net/i?id=9576ac4e5121ba912290d0a77941aced3ec05e7f-12378875-images-thumbs&n=13"
                               ),
                             ),
-                            CourseNameNullable!=null?Text(CourseNameNullable,style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*16.5),)):Text("en error", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*16.5),)),
+                            CourseNameNullable!=null?Text(CourseNameNullable,style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*16.5),color: const Color.fromARGB(255, 222, 201, 255))):Text("en error", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*16.5),color: const Color.fromARGB(255, 222, 201, 255))),
                             
-                            CourseDescriptionNullable!=null?Text(CourseDescriptionNullable.substring(0,75)+"...", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*23),)):Text("err", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*23),)),
+                            CourseDescriptionNullable!=null?Text(CourseDescriptionNullable.substring(0,75)+"...", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*23),color: const Color.fromARGB(255, 222, 201, 255))):Text("err", style: TextStyle(fontSize: (QueryHeight * QueryWidth)/((QueryHeight+QueryWidth)*23),color: const Color.fromARGB(255, 222, 201, 255))),
                             ]
                             
                             ),
